@@ -1,4 +1,5 @@
-name: ALE Psych Builds
+name: ALE Psych Tenna Edition
+run-name: TV Time [#${{github.run_number}}]
 
 on:
   push:
@@ -18,36 +19,6 @@ jobs:
     strategy:
       matrix:
         include:
-          - platform: Windows
-            os: windows-latest
-            container:
-            haxe_setup:
-            build_cmd: haxelib run lime build windows
-            extra_libs:
-            pre_build_commands:
-            artifact_path: export/release/windows/bin
-
-          - platform: Windows x32
-            os: windows-latest
-            container:
-            haxe_setup:
-            build_cmd: haxelib run lime build windows -32 -D 32bits -D HXCPP_M32
-            extra_libs:
-            pre_build_commands:
-            artifact_path: export/32bit/windows/bin
-
-          - platform: Linux
-            os: ubuntu-22.04
-            container:
-            haxe_setup:
-            build_cmd: haxelib run lime build linux
-            extra_libs: |
-              sudo apt-get update
-              sudo apt-get install -y libvlc-dev libvlccore-dev dpkg-dev file desktop-file-utils gtk-update-icon-cache
-              sudo apt install libxcb1-dev libx11-xcb-dev
-            pre_build_commands:
-            artifact_path: export/release/linux/bin
-
           - platform: Android
             os: ubuntu-latest
             container:
@@ -60,22 +31,6 @@ jobs:
               haxelib run lime config JAVA_HOME $JAVA_HOME_17_X64
               haxelib run lime config ANDROID_SETUP true
             artifact_path: export/release/android/bin/app/build/outputs/apk/release/*.apk
-
-          - platform: MacOS
-            os: macos-15
-            container:
-            haxe_setup:
-            build_cmd: haxelib run lime build macos --app-version="4.0.0-${{ github.run_id}}"
-            pre_build_commands:
-            artifact_path: export/release/macos/bin
-
-          - platform: MacOS x64
-            os: macos-15-intel
-            container:
-            haxe_setup:
-            build_cmd: haxelib run lime build macos --app-version="4.0.0-${{ github.run_id}}"
-            pre_build_commands:
-            artifact_path: export/release/macos/bin
 
     steps:
       - name: Pull the New Commit
